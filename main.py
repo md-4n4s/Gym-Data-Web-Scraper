@@ -34,5 +34,18 @@ for page in pages:
     images = soup.find_all("img")
 
     for image in images:
-        img_urls.add(image["src"])
+        img_urls.add(urljoin(url,image["src"]))
+
+os.makedirs("images", exist_ok=True)
+
+for url in img_urls:
+    img = requests.get(url, headers=headers, timeout=10)
+    img.raise_for_status()
+
+    filename = os.path.basename(url)
+
+    filepath = os.path.join("images", filename)
+
+    with open(filepath, "wb") as f:
+        f.write(img.content)
 
