@@ -16,3 +16,10 @@ response.raise_for_status()
 
 soup = BeautifulSoup(response.content, "html.parser")
 
+links = soup.find_all("a")
+
+pages = set()
+
+for link in links:
+    pages.add(link["href"])
+
